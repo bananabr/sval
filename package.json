@@ -10,7 +10,8 @@
     "build": "npm test && rollup -c && npm run post",
     "start": "node scripts && rollup -c && npm run post",
     "post": "mv types/src/index.d.ts types && rm -rf types/src",
-    "test": "node scripts && umi-test --coverage"
+    "test": "node scripts && umi-test --coverage",
+    "browserify": "browserify dist/sval.js -o bundle.js"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
   },
   "devDependencies": {
     "@types/jest": "^24.9.1",
+    "browserify": "^17.0.1",
     "rollup": "^2.79.2",
     "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-node-resolve": "^4.2.4",

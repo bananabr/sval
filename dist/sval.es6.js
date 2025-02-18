@@ -599,7 +599,7 @@
           }
       }
       with(value) {
-          if (Object.keys(value)) {
+          if (typeof value === 'object') {
               this.withContext = value;
           }
       }
@@ -977,6 +977,9 @@
       }
       if (priv) {
           object = object[PRIVATE];
+      }
+      if (object && object.__proto__ && object.__proto__.toString() === "[object Window]") {
+          console.log(node);
       }
       if (getVar) {
           const setter = getSetter(object, key);
@@ -2407,6 +2410,9 @@
       }
       if (priv) {
           object = object[PRIVATE];
+      }
+      if (object && object.__proto__ && object.__proto__.toString() === "[object Window]") {
+          console.log(node);
       }
       if (getVar) {
           const setter = getSetter(object, key);

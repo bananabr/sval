@@ -166,8 +166,8 @@ export default class Scope {
    * @param value object
    */
   with(value: any) {
-    // Use Object.keys to check if the value can be converted to object
-    if (Object.keys(value)) {
+    // Use typeof to check if the value can be converted to object
+    if (typeof value === 'object') {
       this.withContext = value
     }
   }

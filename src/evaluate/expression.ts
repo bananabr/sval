@@ -49,9 +49,9 @@ export function* ObjectExpression(node: acorn.ObjectExpression, scope: Scope) {
           key = '' + (yield* Literal(propKey as acorn.Literal, scope))
         }
       }
-  
+
       const value = yield* evaluate(property.value, scope)
-  
+
       const propKind = property.kind
       if (propKind === 'init') {
         object[key] = value
@@ -121,7 +121,7 @@ export function* UnaryExpression(node: acorn.UnaryExpression, scope: Scope) {
 
 export function* UpdateExpression(node: acorn.UpdateExpression, scope: Scope) {
   const arg = node.argument
-  
+
   let variable: Variable
   if (arg.type === 'Identifier') {
     variable = yield* Identifier(arg, scope, { getVar: true })
@@ -545,7 +545,7 @@ export interface SuperOptions {
 export function* Super(node: acorn.Super, scope: Scope, options: SuperOptions = {}) {
   const { getProto = false } = options
   const superClass = scope.find(SUPER).get()
-  return getProto ? superClass.prototype: superClass
+  return getProto ? superClass.prototype : superClass
 }
 
 export interface SpreadOptions {
