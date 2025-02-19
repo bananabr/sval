@@ -66,7 +66,17 @@ Sval instance has two main methods: **parse** and **run**.
 
 - **parse** is to parse the code with internal [Acorn](https://github.com/acornjs/acorn) or custom parser, to get the corresponding AST, like `parse(code: string)` or `parse(code: string, parser: (code: string, options: SvalOptions) => estree.Node`.
 
-- **run** is to evaluate the code inputed, expecting a string as argument like `run(code: string)`, or an AST followed ESTree Spec as argument like `run(ast: estree.Node)`.
+
+- **run** is to evaluate the code inputed, expecting a string as argument like `run(code: string)`, or an AST followed ESTree Spec as argument like `run(ast: estree.Node)`. It is also possible to pass user-defined filter functions as a second argument (`run(code: string, filters: Object)`). User-defined filters are defined as an object whose keys correspond to node types in the [ESTree spec](https://github.com/estree/estree). The following snippet is an example of how filters can be used to print object member accesses.
+
+```js
+interpreter.run(`console.log('test')`, {
+    "MemberExpression": (m) => {
+        console.log(m);
+        return m;
+    }
+});
+```
 
 Besides, Sval instance also has one method, **import**, and one object, **exports**, for modularization.
 

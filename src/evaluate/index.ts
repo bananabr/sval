@@ -30,8 +30,13 @@ export default function* evaluate(node: Node, scope: Scope) {
   }
 
   const handler = evaluateOps[node.type]
+  const filter = scope.filters ? scope.filters[node.type] : null
   if (handler) {
-    return yield* handler(node, scope)
+    let parsed = yield* handler(node, scope);
+    if (parsed && filter) {
+      parsed = yield* filter(parsed)
+    }
+    return parsed
   } else {
     throw new Error(`${node.type} isn't implemented`)
   }

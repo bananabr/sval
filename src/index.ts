@@ -80,9 +80,10 @@ class Sval {
     return parse(code, this.options)
   }
 
-  run(code: string | Node) {
+  run(code: string | Node, filters?: any) {
     const ast = typeof code === 'string' ? this.parse(code) : code
     const scope = this.scope
+    scope.filters = filters
     // check if top-level await supports
     if (this.options.sourceType === 'module' && (
       this.options.ecmaVersion === 'latest'

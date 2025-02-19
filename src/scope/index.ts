@@ -34,6 +34,30 @@ export default class Scope {
   private withContext: object = create(null)
 
   /**
+   * User-defined filters
+   * @private
+   */
+  private _filters: any = null
+
+  /**
+ * Set the user-defined filters
+ * @param filters filters
+ */
+  set filters(filters: any) {
+    if (this._filters == null) {
+      this._filters = filters
+    }
+  }
+
+  /**
+   * Get the user-defined filters
+   * @returns filters
+   */
+  get filters() {
+    return this._filters
+  }
+
+  /**
    * Create a simulated scope
    * @param parent the parent scope along the scope chain (default: null)
    * @param isolated true for function scope or false for block scope (default: false)
@@ -44,6 +68,9 @@ export default class Scope {
   ) {
     this.parent = parent
     this.isolated = isolated
+    if (parent && parent.filters) {
+      this.filters = parent.filters
+    }
   }
 
   /**

@@ -12,6 +12,6 @@ declare class Sval {
     constructor(options?: SvalOptions);
     import(nameOrModules: string | Record<string, any>, mod?: any): void;
     parse(code: string, parser?: (code: string, options: SvalOptions) => Node): Node;
-    run(code: string | Node): void;
+    run(code: string | Node, filters: any): void;
 }
 export default Sval;

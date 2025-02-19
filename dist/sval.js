@@ -597,9 +597,25 @@
             if (isolated === void 0) { isolated = false; }
             this.context = create(null);
             this.withContext = create(null);
+            this._filters = null;
             this.parent = parent;
             this.isolated = isolated;
+            if (parent && parent.filters) {
+                this.filters = parent.filters;
+            }
         }
+        Object.defineProperty(Scope.prototype, "filters", {
+            get: function () {
+                return this._filters;
+            },
+            set: function (filters) {
+                if (this._filters == null) {
+                    this._filters = filters;
+                }
+            },
+            enumerable: false,
+            configurable: true
+        });
         Scope.prototype.global = function () {
             var scope = this;
             while (scope.parent) {
@@ -1207,9 +1223,6 @@
                 case 7:
                     if (priv) {
                         object = object[PRIVATE];
-                    }
-                    if (object && object.__proto__ && object.__proto__.toString() === "[object Window]") {
-                        console.log(node);
                     }
                     if (getVar) {
                         setter = getSetter(object, key);
@@ -1921,7 +1934,7 @@
 
     var evaluateOps$1;
     function evaluate$1(node, scope) {
-        var handler;
+        var handler, filter, parsed;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -1931,10 +1944,18 @@
                         evaluateOps$1 = assign({}, declaration$1, expression$1, identifier$1, statement$1, literal$1, pattern$3, program$1);
                     }
                     handler = evaluateOps$1[node.type];
-                    if (!handler) return [3, 2];
+                    filter = scope.filters ? scope.filters[node.type] : null;
+                    if (!handler) return [3, 4];
                     return [5, __values(handler(node, scope))];
-                case 1: return [2, _a.sent()];
-                case 2: throw new Error(node.type + " isn't implemented");
+                case 1:
+                    parsed = _a.sent();
+                    if (!(parsed && filter)) return [3, 3];
+                    return [5, __values(filter(parsed))];
+                case 2:
+                    parsed = _a.sent();
+                    _a.label = 3;
+                case 3: return [2, parsed];
+                case 4: throw new Error(node.type + " isn't implemented");
             }
         });
     }
@@ -2840,7 +2861,7 @@
         });
     }
     function ExportDefaultDeclaration$1(node, scope) {
-        var globalScope, value, variable, exports_1;
+        var globalScope, value, variable, exports;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -2863,9 +2884,9 @@
                 case 5:
                     variable = globalScope.find(EXPORTS);
                     if (variable) {
-                        exports_1 = variable.get();
-                        if (exports_1 && typeof exports_1 === 'object') {
-                            exports_1.default = value;
+                        exports = variable.get();
+                        if (exports && typeof exports === 'object') {
+                            exports.default = value;
                         }
                     }
                     return [2];
@@ -2873,7 +2894,7 @@
         });
     }
     function ExportNamedDeclaration$1(node, scope) {
-        var globalScope, value, variable, exports_2, value, variable, exports_3, variable, exports_4, i, name_3, item, variable, exports_5, i, spec, name_4, item;
+        var globalScope, value, variable, exports, value, variable, exports, variable, exports, i, name_3, item, variable, exports, i, spec, name_4, item;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -2884,9 +2905,9 @@
                     scope.func(node.declaration.id.name, value);
                     variable = globalScope.find(EXPORTS);
                     if (variable) {
-                        exports_2 = variable.get();
-                        if (exports_2 && typeof exports_2 === 'object') {
-                            exports_2[node.declaration.id.name] = value;
+                        exports = variable.get();
+                        if (exports && typeof exports === 'object') {
+                            exports[node.declaration.id.name] = value;
                         }
                     }
                     return [3, 5];
@@ -2898,9 +2919,9 @@
                     scope.func(node.declaration.id.name, value);
                     variable = globalScope.find(EXPORTS);
                     if (variable) {
-                        exports_3 = variable.get();
-                        if (exports_3 && typeof exports_3 === 'object') {
-                            exports_3[node.declaration.id.name] = value;
+                        exports = variable.get();
+                        if (exports && typeof exports === 'object') {
+                            exports[node.declaration.id.name] = value;
                         }
                     }
                     return [3, 5];
@@ -2911,13 +2932,13 @@
                     _a.sent();
                     variable = globalScope.find(EXPORTS);
                     if (variable) {
-                        exports_4 = variable.get();
-                        if (exports_4 && typeof exports_4 === 'object') {
+                        exports = variable.get();
+                        if (exports && typeof exports === 'object') {
                             for (i = 0; i < node.declaration.declarations.length; i++) {
                                 name_3 = node.declaration.declarations[i].id.name;
                                 item = scope.find(name_3);
                                 if (item) {
-                                    exports_4[name_3] = item.get();
+                                    exports[name_3] = item.get();
                                 }
                             }
                         }
@@ -2928,15 +2949,15 @@
                     if (node.specifiers) {
                         variable = globalScope.find(EXPORTS);
                         if (variable) {
-                            exports_5 = variable.get();
-                            if (exports_5 && typeof exports_5 === 'object') {
+                            exports = variable.get();
+                            if (exports && typeof exports === 'object') {
                                 for (i = 0; i < node.specifiers.length; i++) {
                                     spec = node.specifiers[i];
                                     name_4 = spec.local.type === 'Identifier'
                                         ? spec.local.name : spec.local.value;
                                     item = scope.find(name_4);
                                     if (item) {
-                                        exports_5[spec.exported.type === 'Identifier'
+                                        exports[spec.exported.type === 'Identifier'
                                             ? spec.exported.name : spec.exported.value] = item.get();
                                     }
                                 }
@@ -2949,7 +2970,7 @@
         });
     }
     function ExportAllDeclaration$1(node, scope) {
-        var globalScope, module, value, result, variable, exports_6;
+        var globalScope, module, value, result, variable, exports;
         return __generator(this, function (_a) {
             globalScope = scope.global();
             module = globalScope.find(IMPORT + node.source.value);
@@ -2969,9 +2990,9 @@
             }
             variable = globalScope.find(EXPORTS);
             if (variable) {
-                exports_6 = variable.get();
-                if (exports_6 && typeof exports_6 === 'object') {
-                    assign(exports_6, value);
+                exports = variable.get();
+                if (exports && typeof exports === 'object') {
+                    assign(exports, value);
                 }
             }
             return [2];
@@ -3306,9 +3327,6 @@
         }
         if (priv) {
             object = object[PRIVATE];
-        }
-        if (object && object.__proto__ && object.__proto__.toString() === "[object Window]") {
-            console.log(node);
         }
         if (getVar) {
             var setter = getSetter(object, key);
@@ -3773,8 +3791,13 @@
             evaluateOps = assign({}, declaration, expression, identifier, statement, literal, pattern$2, program);
         }
         var handler = evaluateOps[node.type];
+        var filter = scope.filters ? scope.filters[node.type] : null;
         if (handler) {
-            return handler(node, scope);
+            var parsed = handler(node, scope);
+            if (parsed && filter) {
+                parsed = filter(parsed);
+            }
+            return parsed;
         }
         else {
             throw new Error(node.type + " isn't implemented");
@@ -4318,9 +4341,9 @@
         }
         var variable = globalScope.find(EXPORTS);
         if (variable) {
-            var exports_1 = variable.get();
-            if (exports_1 && typeof exports_1 === 'object') {
-                exports_1.default = value;
+            var exports = variable.get();
+            if (exports && typeof exports === 'object') {
+                exports.default = value;
             }
         }
     }
@@ -4332,9 +4355,9 @@
                 scope.func(node.declaration.id.name, value);
                 var variable = globalScope.find(EXPORTS);
                 if (variable) {
-                    var exports_2 = variable.get();
-                    if (exports_2 && typeof exports_2 === 'object') {
-                        exports_2[node.declaration.id.name] = value;
+                    var exports = variable.get();
+                    if (exports && typeof exports === 'object') {
+                        exports[node.declaration.id.name] = value;
                     }
                 }
             }
@@ -4343,9 +4366,9 @@
                 scope.func(node.declaration.id.name, value);
                 var variable = globalScope.find(EXPORTS);
                 if (variable) {
-                    var exports_3 = variable.get();
-                    if (exports_3 && typeof exports_3 === 'object') {
-                        exports_3[node.declaration.id.name] = value;
+                    var exports = variable.get();
+                    if (exports && typeof exports === 'object') {
+                        exports[node.declaration.id.name] = value;
                     }
                 }
             }
@@ -4353,13 +4376,13 @@
                 VariableDeclaration(node.declaration, scope);
                 var variable = globalScope.find(EXPORTS);
                 if (variable) {
-                    var exports_4 = variable.get();
-                    if (exports_4 && typeof exports_4 === 'object') {
+                    var exports = variable.get();
+                    if (exports && typeof exports === 'object') {
                         for (var i = 0; i < node.declaration.declarations.length; i++) {
                             var name_3 = node.declaration.declarations[i].id.name;
                             var item = scope.find(name_3);
                             if (item) {
-                                exports_4[name_3] = item.get();
+                                exports[name_3] = item.get();
                             }
                         }
                     }
@@ -4369,15 +4392,15 @@
         else if (node.specifiers) {
             var variable = globalScope.find(EXPORTS);
             if (variable) {
-                var exports_5 = variable.get();
-                if (exports_5 && typeof exports_5 === 'object') {
+                var exports = variable.get();
+                if (exports && typeof exports === 'object') {
                     for (var i = 0; i < node.specifiers.length; i++) {
                         var spec = node.specifiers[i];
                         var name_4 = spec.local.type === 'Identifier'
                             ? spec.local.name : spec.local.value;
                         var item = scope.find(name_4);
                         if (item) {
-                            exports_5[spec.exported.type === 'Identifier'
+                            exports[spec.exported.type === 'Identifier'
                                 ? spec.exported.name : spec.exported.value] = item.get();
                         }
                     }
@@ -4405,9 +4428,9 @@
         }
         var variable = globalScope.find(EXPORTS);
         if (variable) {
-            var exports_6 = variable.get();
-            if (exports_6 && typeof exports_6 === 'object') {
-                assign(exports_6, value);
+            var exports = variable.get();
+            if (exports && typeof exports === 'object') {
+                assign(exports, value);
             }
         }
     }
@@ -5142,9 +5165,10 @@
             }
             return acorn.parse(code, this.options);
         };
-        Sval.prototype.run = function (code) {
+        Sval.prototype.run = function (code, filters) {
             var ast = typeof code === 'string' ? this.parse(code) : code;
             var scope = this.scope;
+            scope.filters = filters;
             if (this.options.sourceType === 'module' && (this.options.ecmaVersion === 'latest'
                 || this.options.ecmaVersion >= 13)) {
                 runAsync((function () {
