@@ -11,7 +11,7 @@
     "start": "node scripts && rollup -c && npm run post",
     "post": "mv types/src/index.d.ts types && rm -rf types/src",
     "test": "node scripts && umi-test --coverage",
-    "browserify": "browserify dist/sval.js -o bundle.js"
+    "browserify": "rm -f bundle.js; browserify deps.js -o bundle.js"
   },
   "repository": {
     "type": "git",
@@ -34,13 +34,13 @@
     "acorn": "^8.14.0"
   },
   "devDependencies": {
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.2",
     "@types/jest": "^24.9.1",
     "browserify": "^17.0.1",
     "rollup": "^2.79.2",
-    "rollup-plugin-json": "^3.1.0",
-    "rollup-plugin-node-resolve": "^4.2.4",
-    "rollup-plugin-typescript2": "^0.21.2",
-    "rollup-plugin-uglify": "^6.0.4",
     "typescript": "^3.8.3",
     "umi-test": "^1.9.7"
   }

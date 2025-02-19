@@ -1,7 +1,7 @@
-import typescript from 'rollup-plugin-typescript2'
-import resolve from 'rollup-plugin-node-resolve'
-import { uglify } from 'rollup-plugin-uglify'
-import json from 'rollup-plugin-json'
+import typescript from '@rollup/plugin-typescript';
+import resolve from "@rollup/plugin-node-resolve"
+import terser from '@rollup/plugin-terser';
+import json from "@rollup/plugin-json"
 
 export default [
   {
@@ -17,9 +17,7 @@ export default [
     external: ['acorn'],
     plugins: [
       json(),
-      typescript({
-        useTsconfigDeclarationDir: true
-      })
+      typescript()
     ]
   },
   {
@@ -36,11 +34,8 @@ export default [
     plugins: [
       json(),
       typescript({
-        useTsconfigDeclarationDir: true,
-        tsconfigOverride: {
-          compilerOptions: {
-            target: 'es6'
-          }
+        compilerOptions: {
+          target: 'es6'
         }
       })
     ]
@@ -55,14 +50,8 @@ export default [
     plugins: [
       json(),
       resolve(),
-      typescript({
-        useTsconfigDeclarationDir: true
-      }),
-      uglify({
-        compress: {
-          drop_debugger: false
-        }
-      })
+      typescript(),
+      terser()
     ]
   }
 ]
