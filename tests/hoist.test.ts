@@ -123,13 +123,13 @@ describe('testing src/index.ts', () => {
           var c = 1
       }
     `)
-    expect((window as any).a).toBe(1)
-    expect((window as any).b).toBeUndefined()
-    expect((window as any).c).toBeUndefined()
-    delete (window as any).i
-    delete (window as any).a
-    // delete (window as any).b
-    // delete (window as any).c
+    expect((globalThis as any).a).toBe(1)
+    expect((globalThis as any).b).toBeUndefined()
+    expect((globalThis as any).c).toBeUndefined()
+    delete (globalThis as any).i
+    delete (globalThis as any).a
+    // delete (globalThis as any).b
+    // delete (globalThis as any).c
   })
   it('should hoist var normally in try-catch', () => {
     const interpreter = new Sval({ sandBox: false })
@@ -145,12 +145,12 @@ describe('testing src/index.ts', () => {
         var c = 1
       }
     `)
-    expect((window as any).a).toBe(1)
-    expect((window as any).b).toBeUndefined()
-    expect((window as any).c).toBe(1)
-    delete (window as any).a
-    // delete (window as any).b
-    delete (window as any).c
+    expect((globalThis as any).a).toBe(1)
+    expect((globalThis as any).b).toBeUndefined()
+    expect((globalThis as any).c).toBe(1)
+    delete (globalThis as any).a
+    // delete (globalThis as any).b
+    delete (globalThis as any).c
   })
   it('should hoist var normally in patterns', () => {
     const interpreter = new Sval()

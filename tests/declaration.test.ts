@@ -106,24 +106,24 @@ describe('testing src/index.ts', () => {
     interpreter.run(`
       var a = 1
 
-      expect(Object.getOwnPropertyDescriptor(window, 'a')).toEqual({
+      expect(Object.getOwnPropertyDescriptor(globalThis, 'a')).toEqual({
         value: 1,
         writable: true,
         enumerable: true,
         configurable: false
       })
-      expect('a' in window).toBeTruthy()
+      expect('a' in globalThis).toBeTruthy()
 
-      expect(window.a).toBe(1)
+      expect(globalThis.a).toBe(1)
       let err1
       try {
-        delete window.a
+        delete globalThis.a
       } catch (ex1) {
         err1 = ex1
       }
 
       expect(err1).toBeInstanceOf(TypeError)
-      expect(window.a).toBe(1)
+      expect(globalThis.a).toBe(1)
 
       expect('a' in this).toBeTruthy()
       let err2

@@ -381,7 +381,7 @@ describe('testing src/index.ts', () => {
       }
       exports.b = x
 
-      c: with (window) {
+      c: with (globalThis) {
         x++
         break c
         x++
@@ -450,7 +450,7 @@ describe('testing src/index.ts', () => {
   //       }
   //       exports.b = x
 
-  //       c: with (window) {
+  //       c: with (globalThis) {
   //         x++
   //         break c
   //         x++

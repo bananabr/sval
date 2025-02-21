@@ -112,7 +112,7 @@ describe('testing src/index.ts', () => {
         done()
       }
     `)
-    function getItem(n) {
+    function getItem(n: any) {
       return new Promise(resolve => setTimeout(resolve, 5, n))
     }
   })
