@@ -7,10 +7,11 @@
   "unpkg": "dist/sval.min.js",
   "types": "types/index.d.ts",
   "scripts": {
-    "build": "npm test && rollup -c && npm run post",
+    "build-release": "npm test && npm build",
+    "build": "rollup -c && npm run post",
     "start": "node scripts && rollup -c && npm run post",
     "post": "mv types/src/index.d.ts types && rm -rf types/src",
-    "test": "node scripts && jest --coverage",
+    "test": "node scripts && jest",
     "browserify": "rm -f bundle.js; browserify deps.js -o bundle.js"
   },
   "repository": {
@@ -43,6 +44,7 @@
     "jest": "^29.7.0",
     "rollup": "^2.79.2",
     "ts-jest": "^29.2.5",
+    "tslib": "^2.8.1",
     "typescript": "^4.9.5"
   }
 }
