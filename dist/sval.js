@@ -81,28 +81,28 @@
         get ExportAllDeclaration () { return ExportAllDeclaration; }
     });
 
-    /*! *****************************************************************************
-    Copyright (c) Microsoft Corporation. All rights reserved.
-    Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-    this file except in compliance with the License. You may obtain a copy of the
-    License at http://www.apache.org/licenses/LICENSE-2.0
+    /******************************************************************************
+    Copyright (c) Microsoft Corporation.
 
-    THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-    WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-    MERCHANTABLITY OR NON-INFRINGEMENT.
+    Permission to use, copy, modify, and/or distribute this software for any
+    purpose with or without fee is hereby granted.
 
-    See the Apache Version 2.0 License for specific language governing permissions
-    and limitations under the License.
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+    AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+    LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+    OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+    PERFORMANCE OF THIS SOFTWARE.
     ***************************************************************************** */
 
     function __generator(thisArg, body) {
-        var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-        return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+        var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+        return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
         function verb(n) { return function (v) { return step([n, v]); }; }
         function step(op) {
             if (f) throw new TypeError("Generator is already executing.");
-            while (_) try {
+            while (g && (g = 0, op[0] && (_ = 0)), _) try {
                 if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
                 if (y = 0, t) op = [op[0] & 2, t.value];
                 switch (op[0]) {
@@ -125,14 +125,15 @@
     }
 
     function __values(o) {
-        var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+        var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
         if (m) return m.call(o);
-        return {
+        if (o && typeof o.length === "number") return {
             next: function () {
                 if (o && i >= o.length) o = void 0;
                 return { value: o && o[i++], done: !o };
             }
         };
+        throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
     }
 
     function __read(o, n) {
@@ -152,11 +153,20 @@
         return ar;
     }
 
-    function __spread() {
-        for (var ar = [], i = 0; i < arguments.length; i++)
-            ar = ar.concat(__read(arguments[i]));
-        return ar;
+    function __spreadArray(to, from, pack) {
+        if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+            if (ar || !(i in from)) {
+                if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+                ar[i] = from[i];
+            }
+        }
+        return to.concat(ar || Array.prototype.slice.call(from));
     }
+
+    typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+        var e = new Error(message);
+        return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+    };
 
     var freeze = Object.freeze;
     var define = Object.defineProperty;
@@ -659,7 +669,7 @@
                     }
                 }
                 else {
-                    throw new SyntaxError("Identifier '" + name + "' has already been declared");
+                    throw new SyntaxError("Identifier '".concat(name, "' has already been declared"));
                 }
             }
             if (!scope.parent) {
@@ -675,7 +685,7 @@
                 this.context[name] = new Var('let', value);
             }
             else {
-                throw new SyntaxError("Identifier '" + name + "' has already been declared");
+                throw new SyntaxError("Identifier '".concat(name, "' has already been declared"));
             }
         };
         Scope.prototype.const = function (name, value) {
@@ -684,7 +694,7 @@
                 this.context[name] = new Var('const', value);
             }
             else {
-                throw new SyntaxError("Identifier '" + name + "' has already been declared");
+                throw new SyntaxError("Identifier '".concat(name, "' has already been declared"));
             }
         };
         Scope.prototype.func = function (name, value) {
@@ -693,7 +703,7 @@
                 this.context[name] = new Var('var', value);
             }
             else {
-                throw new SyntaxError("Identifier '" + name + "' has already been declared");
+                throw new SyntaxError("Identifier '".concat(name, "' has already been declared"));
             }
         };
         Scope.prototype.with = function (value) {
@@ -767,7 +777,7 @@
                 else {
                     value = variable.get();
                     if (value === DEADZONE) {
-                        throw new ReferenceError(node.name + " is not defined");
+                        throw new ReferenceError("".concat(node.name, " is not defined"));
                     }
                     else {
                         return [2, value];
@@ -775,7 +785,7 @@
                 }
             }
             else if (throwErr) {
-                throw new ReferenceError(node.name + " is not defined");
+                throw new ReferenceError("".concat(node.name, " is not defined"));
             }
             else {
                 return [2, undefined];
@@ -971,7 +981,7 @@
                 case 19:
                     _b.sent();
                     return [2, true];
-                case 20: throw new SyntaxError("Unexpected token " + node.operator);
+                case 20: throw new SyntaxError("Unexpected token ".concat(node.operator));
             }
         });
     }
@@ -1004,7 +1014,7 @@
                         return [2, node.prefix ? variable.get() : value];
                     }
                     else {
-                        throw new SyntaxError("Unexpected token " + node.operator);
+                        throw new SyntaxError("Unexpected token ".concat(node.operator));
                     }
             }
         });
@@ -1052,7 +1062,7 @@
                         case '&': return [2, left & right];
                         case 'in': return [2, left in right];
                         case 'instanceof': return [2, left instanceof right];
-                        default: throw new SyntaxError("Unexpected token " + node.operator);
+                        default: throw new SyntaxError("Unexpected token ".concat(node.operator));
                     }
             }
         });
@@ -1136,7 +1146,7 @@
                         case '||=':
                             variable.set(variable.get() || value);
                             return [2, variable.get()];
-                        default: throw new SyntaxError("Unexpected token " + node.operator);
+                        default: throw new SyntaxError("Unexpected token ".concat(node.operator));
                     }
             }
         });
@@ -1182,7 +1192,7 @@
                     _d = (_f.sent());
                     _f.label = 13;
                 case 13: return [2, _d];
-                case 14: throw new SyntaxError("Unexpected token " + node.operator);
+                case 14: throw new SyntaxError("Unexpected token ".concat(node.operator));
             }
         });
     }
@@ -1318,10 +1328,10 @@
                         return [2, undefined];
                     }
                     if (typeof func !== 'function') {
-                        throw new TypeError(key + " is not a function");
+                        throw new TypeError("".concat(key, " is not a function"));
                     }
                     else if (func[CLSCTOR]) {
-                        throw new TypeError("Class constructor " + key + " cannot be invoked without 'new'");
+                        throw new TypeError("Class constructor ".concat(key, " cannot be invoked without 'new'"));
                     }
                     return [3, 7];
                 case 5:
@@ -1345,10 +1355,10 @@
                             }
                         }
                         if (typeof func !== 'function') {
-                            throw new TypeError(name_1 + " is not a function");
+                            throw new TypeError("".concat(name_1, " is not a function"));
                         }
                         else {
-                            throw new TypeError("Class constructor " + name_1 + " cannot be invoked without 'new'");
+                            throw new TypeError("Class constructor ".concat(name_1, " cannot be invoked without 'new'"));
                         }
                     }
                     _e.label = 7;
@@ -1420,10 +1430,10 @@
                                 name_2 = '' + constructor;
                             }
                         }
-                        throw new TypeError(name_2 + " is not a constructor");
+                        throw new TypeError("".concat(name_2, " is not a constructor"));
                     }
                     else if (constructor[NOCTOR]) {
-                        throw new TypeError((constructor.name || '(intermediate value)') + " is not a constructor");
+                        throw new TypeError("".concat(constructor.name || '(intermediate value)', " is not a constructor"));
                     }
                     args = [];
                     i = 0;
@@ -1446,7 +1456,7 @@
                 case 6:
                     i++;
                     return [3, 2];
-                case 7: return [2, new (constructor.bind.apply(constructor, __spread([void 0], args)))()];
+                case 7: return [2, new (constructor.bind.apply(constructor, __spreadArray([void 0], __read(args), false)))()];
             }
         });
     }
@@ -1541,7 +1551,7 @@
                 case 4:
                     i++;
                     return [3, 2];
-                case 5: return [2, tagFunc.apply(void 0, __spread([freeze(str)], args))];
+                case 5: return [2, tagFunc.apply(void 0, __spreadArray([freeze(str)], __read(args), false))];
             }
         });
     }
@@ -1590,7 +1600,7 @@
                     if (typeof Symbol === 'function' && typeof result[Symbol.iterator] !== 'function') {
                         throw new TypeError('Spread syntax requires ...iterable[Symbol.iterator] to be a function');
                     }
-                    return [2, __spread(result)];
+                    return [2, __spreadArray([], __read(result), false)];
             }
         });
     }
@@ -1624,7 +1634,7 @@
                         }
                     }
                     if (!value || typeof value !== 'object') {
-                        return [2, Promise.reject(new TypeError("Failed to resolve module specifier \"" + source + "\""))];
+                        return [2, Promise.reject(new TypeError("Failed to resolve module specifier \"".concat(source, "\"")))];
                     }
                     return [2, Promise.resolve(value)];
             }
@@ -1949,13 +1959,13 @@
                     return [5, __values(handler(node, scope))];
                 case 1:
                     parsed = _a.sent();
-                    if (!(parsed && filter)) return [3, 3];
+                    if (!filter) return [3, 3];
                     return [5, __values(filter(parsed))];
                 case 2:
                     parsed = _a.sent();
                     _a.label = 3;
                 case 3: return [2, parsed];
-                case 4: throw new Error(node.type + " isn't implemented");
+                case 4: throw new Error("".concat(node.type, " isn't implemented"));
             }
         });
     }
@@ -2098,7 +2108,7 @@
                     if (!(node.body.type === 'TryStatement')) return [3, 20];
                     return [5, __values(TryStatement$1(node.body, scope, { label: label }))];
                 case 19: return [2, _a.sent()];
-                case 20: throw new SyntaxError(node.body.type + " cannot be labeled");
+                case 20: throw new SyntaxError("".concat(node.body.type, " cannot be labeled"));
             }
         });
     }
@@ -2422,24 +2432,26 @@
         });
     }
     function ForInStatement$1(node, scope, options) {
-        var _a, _b, _i, value, result;
+        var _a, _b, _c, _i, value, result;
         if (options === void 0) { options = {}; }
-        return __generator(this, function (_c) {
-            switch (_c.label) {
-                case 0:
-                    _a = [];
-                    return [5, __values(evaluate$1(node.right, scope))];
+        return __generator(this, function (_d) {
+            switch (_d.label) {
+                case 0: return [5, __values(evaluate$1(node.right, scope))];
                 case 1:
-                    for (_b in _c.sent())
-                        _a.push(_b);
+                    _a = _d.sent();
+                    _b = [];
+                    for (_c in _a)
+                        _b.push(_c);
                     _i = 0;
-                    _c.label = 2;
+                    _d.label = 2;
                 case 2:
-                    if (!(_i < _a.length)) return [3, 5];
-                    value = _a[_i];
+                    if (!(_i < _b.length)) return [3, 5];
+                    _c = _b[_i];
+                    if (!(_c in _a)) return [3, 4];
+                    value = _c;
                     return [5, __values(ForXHandler(node, scope, { value: value }))];
                 case 3:
-                    result = _c.sent();
+                    result = _d.sent();
                     if (result === BREAK) {
                         if (result.LABEL === options.label) {
                             return [3, 5];
@@ -2455,7 +2467,7 @@
                     else if (result === RETURN) {
                         return [2, result];
                     }
-                    _c.label = 4;
+                    _d.label = 4;
                 case 4:
                     _i++;
                     return [3, 2];
@@ -2837,7 +2849,7 @@
                 }
             }
             if (!value || typeof value !== 'object') {
-                throw new TypeError("Failed to resolve module specifier \"" + node.source.value + "\"");
+                throw new TypeError("Failed to resolve module specifier \"".concat(node.source.value, "\""));
             }
             for (i = 0; i < node.specifiers.length; i++) {
                 spec = node.specifiers[i];
@@ -2853,7 +2865,7 @@
                     name_2 = '*';
                 }
                 if (name_2 !== '*' && !hasOwn(value, name_2)) {
-                    throw new SyntaxError("The requested module \"" + node.source.value + "\" does not provide an export named \"" + name_2 + "\"");
+                    throw new SyntaxError("The requested module \"".concat(node.source.value, "\" does not provide an export named \"").concat(name_2, "\""));
                 }
                 scope.var(spec.local.name, name_2 === '*' ? assign({}, value) : value[name_2]);
             }
@@ -2861,7 +2873,7 @@
         });
     }
     function ExportDefaultDeclaration$1(node, scope) {
-        var globalScope, value, variable, exports;
+        var globalScope, value, variable, exports_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -2884,9 +2896,9 @@
                 case 5:
                     variable = globalScope.find(EXPORTS);
                     if (variable) {
-                        exports = variable.get();
-                        if (exports && typeof exports === 'object') {
-                            exports.default = value;
+                        exports_1 = variable.get();
+                        if (exports_1 && typeof exports_1 === 'object') {
+                            exports_1.default = value;
                         }
                     }
                     return [2];
@@ -2894,7 +2906,7 @@
         });
     }
     function ExportNamedDeclaration$1(node, scope) {
-        var globalScope, value, variable, exports, value, variable, exports, variable, exports, i, name_3, item, variable, exports, i, spec, name_4, item;
+        var globalScope, value, variable, exports_2, value, variable, exports_3, variable, exports_4, i, name_3, item, variable, exports_5, i, spec, name_4, item;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -2905,9 +2917,9 @@
                     scope.func(node.declaration.id.name, value);
                     variable = globalScope.find(EXPORTS);
                     if (variable) {
-                        exports = variable.get();
-                        if (exports && typeof exports === 'object') {
-                            exports[node.declaration.id.name] = value;
+                        exports_2 = variable.get();
+                        if (exports_2 && typeof exports_2 === 'object') {
+                            exports_2[node.declaration.id.name] = value;
                         }
                     }
                     return [3, 5];
@@ -2919,9 +2931,9 @@
                     scope.func(node.declaration.id.name, value);
                     variable = globalScope.find(EXPORTS);
                     if (variable) {
-                        exports = variable.get();
-                        if (exports && typeof exports === 'object') {
-                            exports[node.declaration.id.name] = value;
+                        exports_3 = variable.get();
+                        if (exports_3 && typeof exports_3 === 'object') {
+                            exports_3[node.declaration.id.name] = value;
                         }
                     }
                     return [3, 5];
@@ -2932,13 +2944,13 @@
                     _a.sent();
                     variable = globalScope.find(EXPORTS);
                     if (variable) {
-                        exports = variable.get();
-                        if (exports && typeof exports === 'object') {
+                        exports_4 = variable.get();
+                        if (exports_4 && typeof exports_4 === 'object') {
                             for (i = 0; i < node.declaration.declarations.length; i++) {
                                 name_3 = node.declaration.declarations[i].id.name;
                                 item = scope.find(name_3);
                                 if (item) {
-                                    exports[name_3] = item.get();
+                                    exports_4[name_3] = item.get();
                                 }
                             }
                         }
@@ -2949,15 +2961,15 @@
                     if (node.specifiers) {
                         variable = globalScope.find(EXPORTS);
                         if (variable) {
-                            exports = variable.get();
-                            if (exports && typeof exports === 'object') {
+                            exports_5 = variable.get();
+                            if (exports_5 && typeof exports_5 === 'object') {
                                 for (i = 0; i < node.specifiers.length; i++) {
                                     spec = node.specifiers[i];
                                     name_4 = spec.local.type === 'Identifier'
                                         ? spec.local.name : spec.local.value;
                                     item = scope.find(name_4);
                                     if (item) {
-                                        exports[spec.exported.type === 'Identifier'
+                                        exports_5[spec.exported.type === 'Identifier'
                                             ? spec.exported.name : spec.exported.value] = item.get();
                                     }
                                 }
@@ -2970,7 +2982,7 @@
         });
     }
     function ExportAllDeclaration$1(node, scope) {
-        var globalScope, module, value, result, variable, exports;
+        var globalScope, module, value, result, variable, exports_6;
         return __generator(this, function (_a) {
             globalScope = scope.global();
             module = globalScope.find(IMPORT + node.source.value);
@@ -2986,13 +2998,13 @@
                 }
             }
             if (!value || typeof value !== 'object') {
-                throw new TypeError("Failed to resolve module specifier \"" + node.source.value + "\"");
+                throw new TypeError("Failed to resolve module specifier \"".concat(node.source.value, "\""));
             }
             variable = globalScope.find(EXPORTS);
             if (variable) {
-                exports = variable.get();
-                if (exports && typeof exports === 'object') {
-                    assign(exports, value);
+                exports_6 = variable.get();
+                if (exports_6 && typeof exports_6 === 'object') {
+                    assign(exports_6, value);
                 }
             }
             return [2];
@@ -3013,7 +3025,7 @@
             else {
                 var value = variable.get();
                 if (value === DEADZONE) {
-                    throw new ReferenceError(node.name + " is not defined");
+                    throw new ReferenceError("".concat(node.name, " is not defined"));
                 }
                 else {
                     return value;
@@ -3021,7 +3033,7 @@
             }
         }
         else if (throwErr) {
-            throw new ReferenceError(node.name + " is not defined");
+            throw new ReferenceError("".concat(node.name, " is not defined"));
         }
         else {
             return undefined;
@@ -3151,7 +3163,7 @@
                     evaluate(arg, scope);
                     return true;
                 }
-            default: throw new SyntaxError("Unexpected token " + node.operator);
+            default: throw new SyntaxError("Unexpected token ".concat(node.operator));
         }
     }
     function UpdateExpression(node, scope) {
@@ -3176,7 +3188,7 @@
             return node.prefix ? variable.get() : value;
         }
         else {
-            throw new SyntaxError("Unexpected token " + node.operator);
+            throw new SyntaxError("Unexpected token ".concat(node.operator));
         }
     }
     function BinaryExpression(node, scope) {
@@ -3214,7 +3226,7 @@
             case '&': return left & right;
             case 'in': return left in right;
             case 'instanceof': return left instanceof right;
-            default: throw new SyntaxError("Unexpected token " + node.operator);
+            default: throw new SyntaxError("Unexpected token ".concat(node.operator));
         }
     }
     function AssignmentExpression(node, scope) {
@@ -3285,7 +3297,7 @@
             case '||=':
                 variable.set(variable.get() || value);
                 return variable.get();
-            default: throw new SyntaxError("Unexpected token " + node.operator);
+            default: throw new SyntaxError("Unexpected token ".concat(node.operator));
         }
     }
     function LogicalExpression(node, scope) {
@@ -3298,7 +3310,7 @@
             case '??':
                 return (_a = (evaluate(node.left, scope))) !== null && _a !== void 0 ? _a : (evaluate(node.right, scope));
             default:
-                throw new SyntaxError("Unexpected token " + node.operator);
+                throw new SyntaxError("Unexpected token ".concat(node.operator));
         }
     }
     function MemberExpression(node, scope, options) {
@@ -3397,10 +3409,10 @@
                 return undefined;
             }
             if (typeof func !== 'function') {
-                throw new TypeError(key + " is not a function");
+                throw new TypeError("".concat(key, " is not a function"));
             }
             else if (func[CLSCTOR]) {
-                throw new TypeError("Class constructor " + key + " cannot be invoked without 'new'");
+                throw new TypeError("Class constructor ".concat(key, " cannot be invoked without 'new'"));
             }
         }
         else {
@@ -3423,10 +3435,10 @@
                     }
                 }
                 if (typeof func !== 'function') {
-                    throw new TypeError(name_1 + " is not a function");
+                    throw new TypeError("".concat(name_1, " is not a function"));
                 }
                 else {
-                    throw new TypeError("Class constructor " + name_1 + " cannot be invoked without 'new'");
+                    throw new TypeError("Class constructor ".concat(name_1, " cannot be invoked without 'new'"));
                 }
             }
         }
@@ -3478,10 +3490,10 @@
                     name_2 = '' + constructor;
                 }
             }
-            throw new TypeError(name_2 + " is not a constructor");
+            throw new TypeError("".concat(name_2, " is not a constructor"));
         }
         else if (constructor[NOCTOR]) {
-            throw new TypeError((constructor.name || '(intermediate value)') + " is not a constructor");
+            throw new TypeError("".concat(constructor.name || '(intermediate value)', " is not a constructor"));
         }
         var args = [];
         for (var i = 0; i < node.arguments.length; i++) {
@@ -3493,7 +3505,7 @@
                 args.push(evaluate(arg, scope));
             }
         }
-        return new (constructor.bind.apply(constructor, __spread([void 0], args)))();
+        return new (constructor.bind.apply(constructor, __spreadArray([void 0], __read(args), false)))();
     }
     function MetaProperty(node, scope) {
         if (node.meta.name === 'new' && node.property.name === 'target') {
@@ -3543,7 +3555,7 @@
                 args.push(evaluate(expressions[i], scope));
             }
         }
-        return tagFunc.apply(void 0, __spread([freeze(str)], args));
+        return tagFunc.apply(void 0, __spreadArray([freeze(str)], __read(args), false));
     }
     function TemplateElement(node, scope) {
         return node.value.raw;
@@ -3574,7 +3586,7 @@
         if (typeof Symbol === 'function' && typeof result[Symbol.iterator] !== 'function') {
             throw new TypeError('Spread syntax requires ...iterable[Symbol.iterator] to be a function');
         }
-        return __spread(result);
+        return __spreadArray([], __read(result), false);
     }
     function ChainExpression(node, scope) {
         return evaluate(node.expression, scope);
@@ -3596,7 +3608,7 @@
             }
         }
         if (!value || typeof value !== 'object') {
-            return Promise.reject(new TypeError("Failed to resolve module specifier \"" + source + "\""));
+            return Promise.reject(new TypeError("Failed to resolve module specifier \"".concat(source, "\"")));
         }
         return Promise.resolve(value);
     }
@@ -3794,13 +3806,13 @@
         var filter = scope.filters ? scope.filters[node.type] : null;
         if (handler) {
             var parsed = handler(node, scope);
-            if (parsed && filter) {
+            if (filter) {
                 parsed = filter(parsed);
             }
             return parsed;
         }
         else {
-            throw new Error(node.type + " isn't implemented");
+            throw new Error("".concat(node.type, " isn't implemented"));
         }
     }
 
@@ -3878,7 +3890,7 @@
         if (node.body.type === 'TryStatement') {
             return TryStatement(node.body, scope, { label: label });
         }
-        throw new SyntaxError(node.body.type + " cannot be labeled");
+        throw new SyntaxError("".concat(node.body.type, " cannot be labeled"));
     }
     function WithStatement(node, scope, options) {
         if (options === void 0) { options = {}; }
@@ -4304,7 +4316,7 @@
             }
         }
         if (!value || typeof value !== 'object') {
-            throw new TypeError("Failed to resolve module specifier \"" + node.source.value + "\"");
+            throw new TypeError("Failed to resolve module specifier \"".concat(node.source.value, "\""));
         }
         for (var i = 0; i < node.specifiers.length; i++) {
             var spec = node.specifiers[i];
@@ -4320,7 +4332,7 @@
                 name_2 = '*';
             }
             if (name_2 !== '*' && !hasOwn(value, name_2)) {
-                throw new SyntaxError("The requested module \"" + node.source.value + "\" does not provide an export named \"" + name_2 + "\"");
+                throw new SyntaxError("The requested module \"".concat(node.source.value, "\" does not provide an export named \"").concat(name_2, "\""));
             }
             scope.var(spec.local.name, name_2 === '*' ? assign({}, value) : value[name_2]);
         }
@@ -4341,9 +4353,9 @@
         }
         var variable = globalScope.find(EXPORTS);
         if (variable) {
-            var exports = variable.get();
-            if (exports && typeof exports === 'object') {
-                exports.default = value;
+            var exports_1 = variable.get();
+            if (exports_1 && typeof exports_1 === 'object') {
+                exports_1.default = value;
             }
         }
     }
@@ -4355,9 +4367,9 @@
                 scope.func(node.declaration.id.name, value);
                 var variable = globalScope.find(EXPORTS);
                 if (variable) {
-                    var exports = variable.get();
-                    if (exports && typeof exports === 'object') {
-                        exports[node.declaration.id.name] = value;
+                    var exports_2 = variable.get();
+                    if (exports_2 && typeof exports_2 === 'object') {
+                        exports_2[node.declaration.id.name] = value;
                     }
                 }
             }
@@ -4366,9 +4378,9 @@
                 scope.func(node.declaration.id.name, value);
                 var variable = globalScope.find(EXPORTS);
                 if (variable) {
-                    var exports = variable.get();
-                    if (exports && typeof exports === 'object') {
-                        exports[node.declaration.id.name] = value;
+                    var exports_3 = variable.get();
+                    if (exports_3 && typeof exports_3 === 'object') {
+                        exports_3[node.declaration.id.name] = value;
                     }
                 }
             }
@@ -4376,13 +4388,13 @@
                 VariableDeclaration(node.declaration, scope);
                 var variable = globalScope.find(EXPORTS);
                 if (variable) {
-                    var exports = variable.get();
-                    if (exports && typeof exports === 'object') {
+                    var exports_4 = variable.get();
+                    if (exports_4 && typeof exports_4 === 'object') {
                         for (var i = 0; i < node.declaration.declarations.length; i++) {
                             var name_3 = node.declaration.declarations[i].id.name;
                             var item = scope.find(name_3);
                             if (item) {
-                                exports[name_3] = item.get();
+                                exports_4[name_3] = item.get();
                             }
                         }
                     }
@@ -4392,15 +4404,15 @@
         else if (node.specifiers) {
             var variable = globalScope.find(EXPORTS);
             if (variable) {
-                var exports = variable.get();
-                if (exports && typeof exports === 'object') {
+                var exports_5 = variable.get();
+                if (exports_5 && typeof exports_5 === 'object') {
                     for (var i = 0; i < node.specifiers.length; i++) {
                         var spec = node.specifiers[i];
                         var name_4 = spec.local.type === 'Identifier'
                             ? spec.local.name : spec.local.value;
                         var item = scope.find(name_4);
                         if (item) {
-                            exports[spec.exported.type === 'Identifier'
+                            exports_5[spec.exported.type === 'Identifier'
                                 ? spec.exported.name : spec.exported.value] = item.get();
                         }
                     }
@@ -4424,13 +4436,13 @@
             }
         }
         if (!value || typeof value !== 'object') {
-            throw new TypeError("Failed to resolve module specifier \"" + node.source.value + "\"");
+            throw new TypeError("Failed to resolve module specifier \"".concat(node.source.value, "\""));
         }
         var variable = globalScope.find(EXPORTS);
         if (variable) {
-            var exports = variable.get();
-            if (exports && typeof exports === 'object') {
-                assign(exports, value);
+            var exports_6 = variable.get();
+            if (exports_6 && typeof exports_6 === 'object') {
+                assign(exports_6, value);
             }
         }
     }

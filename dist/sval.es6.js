@@ -512,6 +512,14 @@
     }
 
     class Scope {
+        set filters(filters) {
+            if (this._filters == null) {
+                this._filters = filters;
+            }
+        }
+        get filters() {
+            return this._filters;
+        }
         constructor(parent = null, isolated = false) {
             this.context = create(null);
             this.withContext = create(null);
@@ -521,14 +529,6 @@
             if (parent && parent.filters) {
                 this.filters = parent.filters;
             }
-        }
-        set filters(filters) {
-            if (this._filters == null) {
-                this._filters = filters;
-            }
-        }
-        get filters() {
-            return this._filters;
         }
         global() {
             let scope = this;
@@ -1460,7 +1460,7 @@
         const filter = scope.filters ? scope.filters[node.type] : null;
         if (handler) {
             let parsed = yield* handler(node, scope);
-            if (parsed && filter) {
+            if (filter) {
                 parsed = yield* filter(parsed);
             }
             return parsed;
@@ -2885,7 +2885,7 @@
         const filter = scope.filters ? scope.filters[node.type] : null;
         if (handler) {
             let parsed = handler(node, scope);
-            if (parsed && filter) {
+            if (filter) {
                 parsed = filter(parsed);
             }
             return parsed;

@@ -33,7 +33,7 @@ export default function* evaluate(node: Node, scope: Scope) {
   const filter = scope.filters ? scope.filters[node.type] : null
   if (handler) {
     let parsed = yield* handler(node, scope);
-    if (parsed && filter) {
+    if (filter) {
       parsed = yield* filter(parsed)
     }
     return parsed
