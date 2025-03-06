@@ -15,7 +15,7 @@ jobs:
         run: npm install
       - name: Test code
         run: npm test
-      # - name: Send coverage info to Coveralls
-      #   uses: coverallsapp/github-action@v2
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Send coverage info to Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
