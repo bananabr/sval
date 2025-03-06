@@ -11,7 +11,7 @@
     "build": "rollup -c && npm run post",
     "start": "node scripts && rollup -c && npm run post",
     "post": "mv types/src/index.d.ts types && rm -rf types/src",
-    "test": "node scripts && jest",
+    "test": "node scripts && jest --coverage",
     "browserify": "rm -f bundle.js; browserify deps.js -o bundle.js"
   },
   "repository": {
